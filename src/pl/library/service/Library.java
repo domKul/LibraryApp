@@ -5,9 +5,10 @@ import pl.library.model.Magazine;
 import pl.library.model.Publication;
 import pl.library.service.io.ConsolPrint;
 
-import java.util.InputMismatchException;
+import java.io.Serializable;
 
-public class Library {
+
+public class Library implements Serializable {
 
 
     private static final int MAX_PUBLICATIONS = 100;

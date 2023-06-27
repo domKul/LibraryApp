@@ -1,7 +1,7 @@
 package pl.library.app;
 
 public class LibraryMain {
-    private static final String APP_VERSION = "Biblioteka v0.5";
+    private static final String APP_VERSION = "Biblioteka v0.6";
 
     public static void main(String[] args) {
 

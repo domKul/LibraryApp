@@ -1,5 +1,7 @@
 package pl.library.app;
 
+import pl.library.exception.ExportDataException;
+import pl.library.exception.ImportDataException;
 import pl.library.exception.WrongNumberException;
 import pl.library.model.Book;
 import pl.library.model.Publication;
@@ -7,6 +9,8 @@ import pl.library.service.Library;
 import pl.library.model.Magazine;
 import pl.library.service.DataReader;
 import pl.library.service.io.ConsolPrint;
+import pl.library.service.io.file.FileManagerBuilder;
+import pl.library.service.io.file.FileMenager;
 
 import java.util.InputMismatchException;
 
@@ -14,11 +18,20 @@ import java.util.InputMismatchException;
 public class LibraryControll {
 
     private ConsolPrint consolPrint = new ConsolPrint();
-    private Library library = new Library(consolPrint);
     private DataReader dataReader = new DataReader(consolPrint);
+    private Library library ;
+    private FileMenager fileMenager;
 
-
-
+     LibraryControll() {
+       fileMenager = new FileManagerBuilder(consolPrint,dataReader).build();
+       try{
+           library = fileMenager.importData();
+       }catch (ImportDataException e){
+           consolPrint.printLine(e.getMessage());
+           consolPrint.printLine("New data loaded");
+           library = new Library(consolPrint);
+       }
+    }
 
     private void startAppInfo(){
         for (Choice value : Choice.values()) {
@@ -27,7 +40,7 @@ public class LibraryControll {
         }
     }
 
-    public void controllLoop(){
+     void controllLoop(){
         Choice option;
         do {
             startAppInfo();
@@ -61,6 +74,12 @@ public class LibraryControll {
     }
 
     private void exit() {
+         try{
+             fileMenager.exportData(library);
+             consolPrint.printLine("Data exported");
+         }catch (ExportDataException e) {
+             consolPrint.printLine(e.getMessage());
+         }
        consolPrint.printLine("Good Bye");
         dataReader.closeScanner();
     }

@@ -54,6 +54,10 @@ public class DataReader {
         }
     }
 
+    public String getString(){
+        return sc.nextLine();
+    }
+
     public void closeScanner() {
         sc.close();
     }
