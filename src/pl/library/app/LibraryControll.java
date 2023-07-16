@@ -97,7 +97,7 @@ public class LibraryControll {
     private void saveBook() {
         try{
             Book book = dataReader.createBook();
-            library.addBook(book);
+            library.addPublication(book);
         }catch (InputMismatchException e){
             consolPrint.printLine(" wrong data type");
         }
@@ -105,7 +105,7 @@ public class LibraryControll {
     private void saveMagazine() {
         try {
             Magazine magazine = dataReader.createMagazine();
-            library.addMagazine(magazine);
+            library.addPublication(magazine);
         }catch (InputMismatchException e ){
             consolPrint.printLine(" wrong data type");
         }
