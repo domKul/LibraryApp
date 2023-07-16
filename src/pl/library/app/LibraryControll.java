@@ -2,6 +2,7 @@ package pl.library.app;
 
 import pl.library.exception.ExportDataException;
 import pl.library.exception.ImportDataException;
+import pl.library.exception.InvalidDataException;
 import pl.library.exception.WrongNumberException;
 import pl.library.model.Book;
 import pl.library.model.Publication;
@@ -26,7 +27,7 @@ public class LibraryControll {
        fileManager = new FileManagerBuilder(consolPrint,dataReader).build();
        try{
            library = fileManager.importData();
-       }catch (ImportDataException e){
+       }catch (ImportDataException  |InvalidDataException e){
            consolPrint.printLine(e.getMessage());
            consolPrint.printLine("New data loaded");
            library = new Library();
