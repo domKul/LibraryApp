@@ -6,45 +6,48 @@ import pl.library.service.io.ConsolPrint;
 
 public class FileManagerBuilder {
 
-    private final ConsolPrint consolPrint;
-    private final DataReader dataReader;
+    private  ConsolPrint consolPrint;
+    private  DataReader dataReader;
 
-    public FileManagerBuilder(ConsolPrint consolPrint, DataReader dataReader) {
-        this.consolPrint = consolPrint;
-        this.dataReader = dataReader;
+
+    public FileManagerBuilder(ConsolPrint printer, DataReader reader) {
+        this.consolPrint = printer;
+        this.dataReader = reader;
     }
 
-    public FileMenager build(){
-        consolPrint.printLine("Get file type");
+    public FileManager build() {
+        consolPrint.printLine("Wybierz format danych:");
         FileType fileType = getFileType();
-        switch (fileType){
-            case SERIAL -> {
-                return new SerializableFileMenager();
-            }default -> throw new NoSuchFielTypeException("Wrong file type");
+        switch (fileType) {
+            case SERIAL:
+                return new SerializableFileManager();
+            case CSV:
+                return new CsvFileManager();
+            default:
+                throw new NoSuchFielTypeException("Nieobsługiwany typ danych");
         }
     }
 
     private FileType getFileType() {
-        boolean typeOK = false;
+        boolean typeOk = false;
         FileType result = null;
         do {
-            printType();
-             String type = dataReader.getString().toUpperCase();
-            try{
-               result = FileType.valueOf(type);
-               typeOK = true;
-            }catch (IllegalArgumentException e ){
-                consolPrint.printLine("Wrong data type");
+            printTypes();
+            String type = dataReader.getString().toUpperCase();
+            try {
+                result = FileType.valueOf(type);
+                typeOk = true;
+            } catch (IllegalArgumentException e) {
+                consolPrint.printLine("Nieobsługiwany typ danych, wybierz ponownie.");
             }
+        } while (!typeOk);
 
-        }while (!typeOK);
         return result;
     }
 
-    private void printType(){
+    private void printTypes() {
         for (FileType value : FileType.values()) {
             consolPrint.printLine(value.name());
         }
-
     }
 }

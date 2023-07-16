@@ -10,7 +10,7 @@ import pl.library.model.Magazine;
 import pl.library.service.DataReader;
 import pl.library.service.io.ConsolPrint;
 import pl.library.service.io.file.FileManagerBuilder;
-import pl.library.service.io.file.FileMenager;
+import pl.library.service.io.file.FileManager;
 
 import java.util.InputMismatchException;
 
@@ -20,16 +20,16 @@ public class LibraryControll {
     private ConsolPrint consolPrint = new ConsolPrint();
     private DataReader dataReader = new DataReader(consolPrint);
     private Library library ;
-    private FileMenager fileMenager;
+    private final FileManager fileManager;
 
      LibraryControll() {
-       fileMenager = new FileManagerBuilder(consolPrint,dataReader).build();
+       fileManager = new FileManagerBuilder(consolPrint,dataReader).build();
        try{
-           library = fileMenager.importData();
+           library = fileManager.importData();
        }catch (ImportDataException e){
            consolPrint.printLine(e.getMessage());
            consolPrint.printLine("New data loaded");
-           library = new Library(consolPrint);
+           library = new Library();
        }
     }
 
@@ -75,7 +75,7 @@ public class LibraryControll {
 
     private void exit() {
          try{
-             fileMenager.exportData(library);
+             fileManager.exportData(library);
              consolPrint.printLine("Data exported");
          }catch (ExportDataException e) {
              consolPrint.printLine(e.getMessage());

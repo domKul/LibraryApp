@@ -8,7 +8,7 @@ import java.util.Scanner;
 
 public class DataReader {
     private Scanner sc = new Scanner(System.in);
-    private final ConsolPrint consolPrint;
+    private  ConsolPrint consolPrint;
 
     public DataReader(ConsolPrint consolPrint) {
         this.consolPrint = consolPrint;

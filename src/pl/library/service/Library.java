@@ -16,10 +16,11 @@ public class Library implements Serializable {
 
     private Publication[] publications = new Publication[MAX_PUBLICATIONS];
 
-    private final ConsolPrint consolPrint;
+    private  ConsolPrint consolPrint;
 
-    public Library(ConsolPrint consolPrint) {
-        this.consolPrint = consolPrint;
+
+
+    public Library() {
     }
 
     public Publication[] getPublications() {
