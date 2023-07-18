@@ -103,6 +103,9 @@ public class LibraryControll {
             consolPrint.printLine(" wrong data type");
         }
     }
+    private void deleteBook(){
+
+    }
     private void saveMagazine() {
         try {
             Magazine magazine = dataReader.createMagazine();
@@ -111,13 +114,19 @@ public class LibraryControll {
             consolPrint.printLine(" wrong data type");
         }
     }
+    private void deleteMagazine(){
+
+    }
 
    private enum Choice {
         EXIT(0," for EXIT"),
         READ_BOOK(1," for read list of books"),
         SAVE_BOOK(2," for save book in list"),
         SAVE_MAGAZINE(3," for save magazine in list"),
-        READ_MAGAZINE(4, " for read magazine in list");
+        READ_MAGAZINE(4, " for read magazine in list"),
+        DELETE_BOOK(5, " for delete the Book"),
+        DELETE_MAGAZINE(6, " for delete the magazine");
+
 
         private final int number;
         private final String description;
