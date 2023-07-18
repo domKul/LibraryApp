@@ -52,6 +52,8 @@ public class LibraryControll {
                 case SAVE_MAGAZINE -> saveMagazine();
                 case READ_MAGAZINE -> readMagazineList();
                 case EXIT -> exit();
+                case DELETE_BOOK -> deleteBook();
+                case DELETE_MAGAZINE -> deleteMagazine();
                 default -> consolPrint.printLine("Wrong Number");
             }
         }while (option != Choice.EXIT);
@@ -104,6 +106,16 @@ public class LibraryControll {
         }
     }
     private void deleteBook(){
+        try{
+            Book book = dataReader.createBook();
+            if (library.removePublication(book)){
+                consolPrint.printLine("Publication deleted");
+            }else{
+                consolPrint.printLine("Book not found found");
+            }
+        }catch (InputMismatchException e ){
+            consolPrint.printLine("Cant delete the book, wrong input informations");
+        }
 
     }
     private void saveMagazine() {
@@ -115,7 +127,16 @@ public class LibraryControll {
         }
     }
     private void deleteMagazine(){
-
+         try{
+             Magazine magazine = dataReader.createMagazine();
+             if (library.removePublication(magazine)){
+                 consolPrint.printLine("Publication deleted");
+             }else{
+                 consolPrint.printLine("Magazine not found found");
+             }
+         }catch (InputMismatchException e ){
+             consolPrint.printLine("Cant delete the magazine, wrong input informations");
+         }
     }
 
    private enum Choice {

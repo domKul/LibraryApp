@@ -28,7 +28,7 @@ public class Library implements Serializable {
 
     public void addPublication(Publication publication){
         if (publicationNumber == publications.length){
-            Publication[] publications1 = Arrays.copyOf(publications, publications.length * 2);
+            publications = Arrays.copyOf(publications, publications.length * 2);
         }
         publications[publicationNumber] = publication;
         publicationNumber++;
