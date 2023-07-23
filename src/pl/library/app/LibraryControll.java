@@ -6,6 +6,8 @@ import pl.library.exception.InvalidDataException;
 import pl.library.exception.WrongNumberException;
 import pl.library.model.Book;
 import pl.library.model.Publication;
+import pl.library.model.comparator.AlphabeticComparator;
+import pl.library.model.comparator.DateComparator;
 import pl.library.service.Library;
 import pl.library.model.Magazine;
 import pl.library.service.DataReader;
@@ -13,6 +15,8 @@ import pl.library.service.io.ConsolPrint;
 import pl.library.service.io.file.FileManagerBuilder;
 import pl.library.service.io.file.FileManager;
 
+import java.security.AlgorithmConstraints;
+import java.util.Arrays;
 import java.util.InputMismatchException;
 
 
@@ -87,13 +91,19 @@ public class LibraryControll {
         dataReader.closeScanner();
     }
 
-    private void readBookList() {
+    private Publication[] readAlphabeticPublications(){
         Publication[] get =library.getPublications();
+        Arrays.sort(get, new DateComparator());
+        return get;
+    }
+
+    private void readBookList() {
+        Publication[] get = readAlphabeticPublications();
         consolPrint.readBook(get);
 
     }
     private void readMagazineList() {
-        Publication[] get =library.getPublications();
+        Publication[] get = readAlphabeticPublications();
         consolPrint.readMagazine(get);
     }
 
