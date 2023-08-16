@@ -6,7 +6,6 @@ import pl.library.model.LibraryUser;
 import pl.library.model.Publication;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
