@@ -1,6 +1,7 @@
 package pl.library.service;
 
 import pl.library.model.Book;
+import pl.library.model.LibraryUser;
 import pl.library.model.Magazine;
 import pl.library.service.io.ConsolPrint;
 
@@ -52,6 +53,16 @@ public class DataReader {
         }finally {
             sc.nextLine();
         }
+    }
+    public LibraryUser createLibraryUser(){
+        consolPrint.printLine("imie");
+        String firstName = sc.nextLine();
+        consolPrint.printLine("nazwisko");
+        String lastName = sc.nextLine();
+        consolPrint.printLine("pesel");
+        String pesel = sc.nextLine();
+
+        return new LibraryUser(firstName, lastName, pesel);
     }
 
     public String getString(){

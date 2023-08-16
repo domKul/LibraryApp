@@ -1,22 +1,15 @@
 package pl.library.app;
 
-import pl.library.exception.ExportDataException;
-import pl.library.exception.ImportDataException;
-import pl.library.exception.InvalidDataException;
-import pl.library.exception.WrongNumberException;
+import pl.library.exception.*;
 import pl.library.model.Book;
-import pl.library.model.Publication;
-import pl.library.model.comparator.AlphabeticComparator;
-import pl.library.model.comparator.DateComparator;
-import pl.library.service.Library;
+import pl.library.model.LibraryUser;
 import pl.library.model.Magazine;
 import pl.library.service.DataReader;
+import pl.library.service.Library;
 import pl.library.service.io.ConsolPrint;
-import pl.library.service.io.file.FileManagerBuilder;
 import pl.library.service.io.file.FileManager;
+import pl.library.service.io.file.FileManagerBuilder;
 
-import java.security.AlgorithmConstraints;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 
 
@@ -55,13 +48,30 @@ public class LibraryControll {
                 case READ_BOOK -> readBookList();
                 case SAVE_MAGAZINE -> saveMagazine();
                 case READ_MAGAZINE -> readMagazineList();
-                case EXIT -> exit();
                 case DELETE_BOOK -> deleteBook();
                 case DELETE_MAGAZINE -> deleteMagazine();
+                case ADD_NEW_USER -> addUser();
+                case PRINT_USERS -> readUsers();
+                case EXIT -> exit();
                 default -> consolPrint.printLine("Wrong Number");
             }
         }while (option != Choice.EXIT);
 
+    }
+
+    private void readUsers() {
+         consolPrint.readUsers(library.getUsers().values());
+
+    }
+
+    private void addUser() {
+        LibraryUser libraryUser = dataReader.createLibraryUser();
+        try{
+            library.addUser(libraryUser);
+        }catch (UserAlreadyExistException e){
+            consolPrint.printLine(e.getMessage());
+
+        }
     }
 
     private Choice getChoice(){
@@ -91,20 +101,12 @@ public class LibraryControll {
         dataReader.closeScanner();
     }
 
-    private Publication[] readAlphabeticPublications(){
-        Publication[] get =library.getPublications();
-        Arrays.sort(get, new DateComparator());
-        return get;
-    }
 
     private void readBookList() {
-        Publication[] get = readAlphabeticPublications();
-        consolPrint.readBook(get);
-
+        consolPrint.readBook(library.getPublications().values());
     }
     private void readMagazineList() {
-        Publication[] get = readAlphabeticPublications();
-        consolPrint.readMagazine(get);
+        consolPrint.readMagazine(library.getPublications().values());
     }
 
     private void saveBook() {
@@ -156,7 +158,11 @@ public class LibraryControll {
         SAVE_MAGAZINE(3," for save magazine in list"),
         READ_MAGAZINE(4, " for read magazine in list"),
         DELETE_BOOK(5, " for delete the Book"),
-        DELETE_MAGAZINE(6, " for delete the magazine");
+        DELETE_MAGAZINE(6, " for delete the magazine"),
+        ADD_NEW_USER(7,"to add new user" ),
+        PRINT_USERS(8, "get all users");
+
+
 
 
         private final int number;
