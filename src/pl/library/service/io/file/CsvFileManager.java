@@ -8,7 +8,6 @@ import pl.library.service.Library;
 
 import java.io.*;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Scanner;
 
 public class CsvFileManager implements FileManager{
@@ -98,27 +97,24 @@ public class CsvFileManager implements FileManager{
 
     private void exportUsers(Library library) {
         Collection<LibraryUser> libraryUsers = library.getUsers().values();
-        try(var fileWritter = new FileWriter(USERS_FILE_NAME);
-            var bufferderWritter = new BufferedWriter(fileWritter)) {
-            for (LibraryUser users : libraryUsers) {
-                bufferderWritter.write(users.toCsv());
-                bufferderWritter.newLine();
-            }
-        } catch (IOException e) {
-            throw new ExportDataException("Cant save data to file" + USERS_FILE_NAME);
-        }
+        exportToCsv(libraryUsers, USERS_FILE_NAME);
     }
 
     private void exportPublications(Library library) {
         Collection<Publication> publications = library.getPublications().values();
-        try(var fileWritter = new FileWriter(FILE_NAME);
+        exportToCsv(publications, FILE_NAME);
+    }
+
+    private<T extends  CsvConvertible> void exportToCsv(Collection<T> collection, String filename) {
+        try(var fileWritter = new FileWriter(filename);
             var bufferderWritter = new BufferedWriter(fileWritter)) {
-            for (Publication publication : publications) {
-                bufferderWritter.write(publication.toCsv());
+            for (T element : collection) {
+                bufferderWritter.write(element.toCsv());
                 bufferderWritter.newLine();
             }
         } catch (IOException e) {
-            throw new ExportDataException("Cant save data to file" + FILE_NAME);
+            throw new ExportDataException("Cant save data to file" + filename);
         }
     }
+
 }
