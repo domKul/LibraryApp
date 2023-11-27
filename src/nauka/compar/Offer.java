@@ -1,8 +1,13 @@
 package nauka.compar;
- class Offer implements Comparable<Offer>{
+
+import java.util.ArrayList;
+import java.util.List;
+
+class Offer implements Comparable<Offer>{
      private String city;
      private double price;
      private double area;
+
 
      public Offer(String city, double price, double area) {
          this.city = city;

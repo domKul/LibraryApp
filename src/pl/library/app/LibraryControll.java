@@ -4,12 +4,14 @@ import pl.library.exception.*;
 import pl.library.model.Book;
 import pl.library.model.LibraryUser;
 import pl.library.model.Magazine;
+import pl.library.model.comparator.AlphabeticTitleComparator;
 import pl.library.service.DataReader;
 import pl.library.service.Library;
 import pl.library.service.io.ConsolPrint;
 import pl.library.service.io.file.FileManager;
 import pl.library.service.io.file.FileManagerBuilder;
 
+import java.util.Comparator;
 import java.util.InputMismatchException;
 
 
@@ -60,7 +62,12 @@ public class LibraryControll {
     }
 
     private void readUsers() {
-         consolPrint.readUsers(library.getUsers().values());
+         consolPrint.readUsers(library.getSortedUsers(new Comparator<LibraryUser>() {
+             @Override
+             public int compare(LibraryUser u1, LibraryUser u2) {
+                 return u1.getLastName().compareToIgnoreCase(u2.getLastName());
+             }
+         }));
 
     }
 
@@ -103,10 +110,10 @@ public class LibraryControll {
 
 
     private void readBookList() {
-        consolPrint.readBook(library.getPublications().values());
+        consolPrint.readBook(library.getSortedPublication(new AlphabeticTitleComparator()));
     }
     private void readMagazineList() {
-        consolPrint.readMagazine(library.getPublications().values());
+        consolPrint.readMagazine(library.getSortedPublication(new AlphabeticTitleComparator()));
     }
 
     private void saveBook() {
