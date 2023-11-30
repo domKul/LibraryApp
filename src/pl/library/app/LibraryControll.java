@@ -1,9 +1,7 @@
 package pl.library.app;
 
 import pl.library.exception.*;
-import pl.library.model.Book;
-import pl.library.model.LibraryUser;
-import pl.library.model.Magazine;
+import pl.library.model.*;
 import pl.library.model.comparator.AlphabeticTitleComparator;
 import pl.library.service.DataReader;
 import pl.library.service.Library;
@@ -62,12 +60,9 @@ public class LibraryControll {
     }
 
     private void readUsers() {
-         consolPrint.readUsers(library.getSortedUsers(new Comparator<LibraryUser>() {
-             @Override
-             public int compare(LibraryUser u1, LibraryUser u2) {
-                 return u1.getLastName().compareToIgnoreCase(u2.getLastName());
-             }
-         }));
+         consolPrint.readUsers(library.getSortedUsers(
+                 Comparator.comparing(User::getLastName,String.CASE_INSENSITIVE_ORDER)
+         ));
 
     }
 
@@ -110,10 +105,15 @@ public class LibraryControll {
 
 
     private void readBookList() {
-        consolPrint.readBook(library.getSortedPublication(new AlphabeticTitleComparator()));
+        consolPrint.readBook(library.getSortedPublication(
+                Comparator.comparing(Publication::getTitle,String.CASE_INSENSITIVE_ORDER).reversed()
+
+        ));
     }
     private void readMagazineList() {
-        consolPrint.readMagazine(library.getSortedPublication(new AlphabeticTitleComparator()));
+        consolPrint.readMagazine(library.getSortedPublication(
+                Comparator.comparing(Publication::getTitle,String.CASE_INSENSITIVE_ORDER)
+        ));
     }
 
     private void saveBook() {

@@ -18,20 +18,20 @@ public class CsvFileManager implements FileManager{
     public Library importData() {
         Library library = new Library();
         importPublications(library);
-        importusers(library);
+        importUsers(library);
         
         return library;
     }
 
-    private void importusers(Library library) {
-        try (Scanner fileReader = new Scanner(new File(USERS_FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                LibraryUser libraryUser = createUserFromString(line);
-                library.addUser(libraryUser);
-            }
+    private void importUsers(Library library) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(USERS_FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createUserFromString)
+                    .forEach(library::addUser);
         } catch (FileNotFoundException e) {
             throw new ImportDataException("No file " + USERS_FILE_NAME);
+        } catch (IOException e) {
+            throw new ImportDataException("IO exception error");
         }
     }
 
@@ -45,14 +45,14 @@ public class CsvFileManager implements FileManager{
     }
 
     private void importPublications(Library library) {
-        try (Scanner fileReader = new Scanner(new File(FILE_NAME))) {
-            while (fileReader.hasNextLine()) {
-                String line = fileReader.nextLine();
-                Publication publication = createObjectFromString(line);
-                library.addPublication(publication);
-            }
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME))) {
+            bufferedReader.lines()
+                    .map(this::createObjectFromString)
+                    .forEach(library::addPublication);
         } catch (FileNotFoundException e) {
             throw new ImportDataException("No file " + FILE_NAME);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
