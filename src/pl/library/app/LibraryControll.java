@@ -52,10 +52,19 @@ public class LibraryControll {
                 case ADD_NEW_USER -> addUser();
                 case PRINT_USERS -> readUsers();
                 case EXIT -> exit();
+                case FIND_BOOK -> findBook();
                 default -> consolPrint.printLine("Wrong Number");
             }
         }while (option != Choice.EXIT);
 
+    }
+
+    private void findBook() {
+         consolPrint.printLine("Type publication title");
+        String title = dataReader.getString();
+        library.findByTitle(title)
+                .map(Publication::toString)
+                .ifPresentOrElse(System.out::println, ()-> System.out.println("Wrong title"));
     }
 
     private void readUsers() {
@@ -166,7 +175,8 @@ public class LibraryControll {
         DELETE_BOOK(5, " for delete the Book"),
         DELETE_MAGAZINE(6, " for delete the magazine"),
         ADD_NEW_USER(7,"to add new user" ),
-        PRINT_USERS(8, "get all users");
+        PRINT_USERS(8, "get all users"),
+        FIND_BOOK(9,"Find Publication");
 
 
 
