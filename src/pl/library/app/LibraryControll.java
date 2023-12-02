@@ -2,7 +2,6 @@ package pl.library.app;
 
 import pl.library.exception.*;
 import pl.library.model.*;
-import pl.library.model.comparator.AlphabeticTitleComparator;
 import pl.library.service.DataReader;
 import pl.library.service.Library;
 import pl.library.service.io.ConsolPrint;

@@ -6,41 +6,38 @@ import pl.library.model.Magazine;
 import pl.library.model.Publication;
 
 import java.util.Collection;
+import java.util.stream.Stream;
 
 
 public class ConsolPrint {
 
 
     public void readMagazine(Collection<Publication> publication) {
-        int countMagazine = 0;
-        for (Publication pub : publication) {
-            if (pub instanceof Magazine){
-                printLine(pub.toString());
-                countMagazine++;
-            }
-        }
-        if (countMagazine ==0){
+        long count = publication.stream()
+                .filter(m -> m instanceof Magazine)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
+        if (count ==0){
             System.out.println("No publication found");
         }
     }
 
     public void readBook(Collection<Publication> publication) {
-        int counterBook = 0;
-        for (Publication pub : publication) {
-            if (pub instanceof Book){
-                printLine(pub.toString());
-                counterBook++;
-            }
-        }
-        if (counterBook == 0){
+        long count = publication.stream()
+                .filter(p -> p instanceof Book)
+                .map(Publication::toString)
+                .peek(this::printLine)
+                .count();
+        if (count == 0){
             System.out.println("No books found");
         }
     }
 
     public void readUsers(Collection<LibraryUser> libraryUsers){
-        for (LibraryUser libraryUser : libraryUsers) {
-            printLine(libraryUser.toString());
-        }
+        libraryUsers.stream()
+                .map(LibraryUser::toString)
+                .forEach(this::printLine);
     }
 
     public void printLine(String text){
